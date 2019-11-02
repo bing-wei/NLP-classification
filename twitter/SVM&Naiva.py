@@ -19,9 +19,9 @@ from sklearn import model_selection, naive_bayes, svm
 from sklearn.metrics import accuracy_score
 
 
-train = pd.read_csv('C://Users//wei//Desktop//python//twitter//train.csv')
-test = pd.read_csv('C://Users//wei//Desktop//python//twitter//test.csv')
-sample_upload = pd.read_csv('C://Users//wei//Desktop//python//twitter//sample_upload.csv')
+train = pd.read_csv('train.csv')
+test = pd.read_csv('test.csv')
+sample_upload = pd.read_csv('sample_upload.csv')
 
 
 # Step - a : Remove blank rows if any.
@@ -63,7 +63,7 @@ for index,entry in enumerate(test['tweet']):
     word_Lemmatized = WordNetLemmatizer()
     # pos_tag function below will provide the 'tag' i.e if the word is Noun(N) or Verb(V) or something else.
     for word, tag in pos_tag(entry):
-        # Below condition is to check for Stop words and consider only alphabets
+        # Below condition is to check for Stop words and consider only alphabetsz
         if word not in stopwords.words('english') and word.isalpha():
             word_Final = word_Lemmatized.lemmatize(word,tag_map[tag[0]])
             Final_words.append(word_Final)
@@ -102,9 +102,5 @@ predictions_SVM = SVM.predict(Test_X_Tfidf)
 print("SVM Accuracy Score -> ",accuracy_score(predictions_SVM, Test_Y)*100)
 from sklearn.metrics import classification_report
 print(classification_report(predictions_SVM, Test_Y))
-print(classification_report(predictions_NB, Test_Y))
 
-predictions_SVM_ans = SVM.predict(x_ans)
-sample_upload['class'] = predictions_SVM_ans
-sample_upload.to_csv("sample_upload.csv",index=False)
 
