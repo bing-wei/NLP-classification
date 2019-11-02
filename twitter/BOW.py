@@ -18,7 +18,7 @@ from collections import defaultdict
 #from nltk.corpus import wordnet as wn
 #from nltk.tokenize import word_tokenize
 #from nltk.stem import WordNetLemmatizer
-#from nltk import pos_tag
+    #from nltk import pos_tag
 #from nltk.corpus import stopwords
 
 
