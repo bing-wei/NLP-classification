@@ -32,12 +32,14 @@ y_train_label = y_train
 x_train = tokenize.texts_to_matrix(X_train)
 x_test = tokenize.texts_to_matrix(X_test)
 
-y_train = utils.to_categorical(y_train, num_classes)
-y_test = utils.to_categorical(y_test, num_classes)
-
 class_weights = class_weight.compute_class_weight('balanced',
                                                  np.unique(y_train),
                                                  y_train)
+
+y_train = utils.to_categorical(y_train, num_classes)
+y_test = utils.to_categorical(y_test, num_classes)
+
+
 
 #%% 模型設定
 
