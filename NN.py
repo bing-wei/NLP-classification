@@ -4,15 +4,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import class_weight
 from sklearn.metrics import classification_report
 import numpy as np
+
 from keras.models import Sequential
 from keras.layers import Dense, Activation, BatchNormalization
 from keras.preprocessing import text
 from keras import utils
 import matplotlib.pyplot as plt
 
-train = pd.read_csv('train.csv')
-test = pd.read_csv('test.csv')
-sample_upload = pd.read_csv('sample_upload.csv')
+train = pd.read_csv('Data/train.csv')
+test = pd.read_csv('Data/test.csv')
+sample_upload = pd.read_csv('Data/sample_upload.csv')
 #%% 
 x, y = train['tweet'], train['class']
 num_classes = 3
@@ -30,10 +31,6 @@ y_train_label = y_train
 
 x_train = tokenize.texts_to_matrix(X_train)
 x_test = tokenize.texts_to_matrix(X_test)
-
-class_weights = class_weight.compute_class_weight('balanced',
-                                                 np.unique(y_train),
-                                                 y_train)
 
 y_train = utils.to_categorical(y_train, num_classes)
 y_test = utils.to_categorical(y_test, num_classes)
@@ -61,14 +58,12 @@ model.compile(loss='categorical_crossentropy',
               optimizer='nadam',
               metrics=['accuracy'])
 
-print(model.summary())
 
 history = model.fit(x_train, y_train,
                        batch_size=batch_size,
                        epochs=epochs,
-                       verbose=0,
-                       validation_data=(x_test, y_test)
-                       ,class_weight=class_weights)
+                       verbose=1,
+                       validation_data=(x_test, y_test))
 
 
 #%% 查看分數
@@ -95,8 +90,4 @@ plt.subplot(122)
 plt.plot(range(len(acc)), acc,label='acc')
 plt.title('Accuracy')
 plt.show()
-#%% 預測答案及更改答案
-x_ans =tokenize.texts_to_matrix(test['tweet'])
-sample_upload['class'] = model.predict_classes(x_ans)
-sample_upload.to_csv("ans/sample_upload.csv",index=False)
 
